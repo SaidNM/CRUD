@@ -107,4 +107,31 @@ public class CrudController {
         }
         return mav;
     }
+
+
+    @GetMapping("/actualizar")
+    public ModelAndView actualizar(Model model) {
+        model.addAttribute("socio", new Socio());
+        model.addAttribute("socioID",new SocioModel());
+        model.addAttribute("success", registroExitoso);
+        registroExitoso=0;
+        return new ModelAndView(Constants.ACTUALIZAR);
+    }
+
+    @GetMapping("/consultarID")
+    public ModelAndView consultarNombre(@ModelAttribute("socioID") SocioModel socioModel){
+        LOG.info("Call: "+ "consultarUsuariosNombre()");
+        ModelAndView mav = new ModelAndView(Constants.ACTUALIZAR);
+        mav.addObject("socios",socioService.consultarByNombre(socioModel.getNombre()));
+        return mav;
+    }
+    @PostMapping("/actualizarUsuario")
+    public String actualizarUsuario(@ModelAttribute("socio") Socio socio) {
+        socio = socioService.actualizar(socio);
+        if(socio!=null) {
+            registroExitoso = 1;
+        }
+        return "redirect:/example/actualizar";
+    }
+
 }

@@ -43,55 +43,57 @@
                 <div class="navbar-header">
                     <a class="navbar-minimalize minimalize-styl-2 btn btn-primary "
                        href="#"><i class="fa fa-bars"></i> </a>
-                    <form role="search" class="navbar-form-custom" method="get" action="#" th:action="@{/example/buscar}" th:object="${socioModel}">
-                        <div class="form-group">
-                            <input type="text" th:field="*{nombre}" placeholder="Buscar por nombre.." class="form-control"
-                                   name="top-search" id="top-search" />
-                        </div>
-                    </form>
                 </div>
             </nav>
             <!-- menu arriba -->
         </div>
         <div class="row  border-bottom white-bg dashboard-header">
-        <h2>Consultar</h2>
+            <h2>Actualizar Socio</h2>
+        </div>
+        <!-- aqui va el contenido -->
+        <div class="alert alert-success" th:if="${success == 1}">
+            ¡Actualizacion exitosa!
         </div>
 
-
-        <div class="col-lg-6">
+        <div class="col-lg-5">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
-                    <h5>Socios</h5>
+                    <h5>Registrarse</h5>
                 </div>
                 <div class="ibox-content">
-                    <table class="table">
-                        <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Nombre</th>
-                            <th>Apellido Paterno</th>
-                            <th>Apellido Materno</th>
-                            <th>Comentario</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr th:each="socio : ${socios}">
-                            <td><span th:text="${socio.id}">ID</span></td>
-                            <td><span th:text="${socio.nombre}">ID</span></td>
-                            <td><span th:text="${socio.apellidoP}">ID</span></td>
-                            <td><span th:text="${socio.apellidoM}">ID</span></td>
-                            <td><span th:text="${socio.descripcion}">ID</span></td>
-                        </tr>
-                        </tbody>
-                    </table>
+                    <form class="form-horizontal" method="post" action="#" th:action="@{/example/actualizarUsuario}" th:object="${socio}">
+                        <div class="form-group"><label class="col-lg-2 control-label">ID</label>
+                            <div class="col-lg-10"><input type="text" th:field="*{id}" placeholder="Nombre" class="form-control" required="true"/>
+                            </div>
+                        </div>
+                        <div class="form-group"><label class="col-lg-2 control-label">Nombre(s)</label>
+                            <div class="col-lg-10"><input type="text" th:field="*{nombre}" placeholder="Nombre" class="form-control" required="true"/>
+                            </div>
+                        </div>
+                        <div class="form-group"><label class="col-lg-2 control-label">Apellido Paterno</label>
+                            <div class="col-lg-10"><input type="text" th:field="*{apellidoP}" placeholder="Apellido Paterno" class="form-control" required="true"/>
+                            </div>
+                        </div>
+                        <div class="form-group"><label class="col-lg-2 control-label">Apellido Materno</label>
+                            <div class="col-lg-10"><input type="text" th:field="*{apellidoM}" placeholder="Apellido Materno" class="form-control" required="true"/>
+                            </div>
+                        </div>
+                        <div class="form-group"><label class="col-lg-3 control-label">Comentario</label>
+                            <div class="col-lg-11"><input type="text" th:field="*{descripcion}" placeholder="Comentario" class="form-control" required="true"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-lg-offset-2 col-lg-10">
+                                <button class="btn btn-sm btn-white" type="submit">Registrarse</button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
 
+        <!-- aqui va el contenido -->
     </div>
-    <!-- menu arriba -->
-
-    <!-- menu arriba -->
 </div>
 <script th:src="@{/js/jquery-3.1.1.min.js}"></script>
 <script th:src="@{/js/bootstrap.min.js}"></script>
