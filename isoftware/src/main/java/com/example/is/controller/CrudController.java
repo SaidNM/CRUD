@@ -27,6 +27,8 @@ import java.util.List;
 @RequestMapping("/example")
 public class CrudController {
     private int registroExitoso=0;
+    private int eliminado=0;
+    private int sinRegistros=0;
 
     private static final Log LOG = LogFactory.getLog(CrudController.class);
     @Autowired
@@ -74,6 +76,35 @@ public class CrudController {
         LOG.info("Call: "+ "consultarUsuariosNombre()");
         ModelAndView mav = new ModelAndView(Constants.CONSULTAR_SOCIO);
         mav.addObject("socios",socioService.consultarByNombre(socioModel.getNombre()));
+        return mav;
+    }
+
+    @GetMapping("/eliminar")
+    public ModelAndView eliminarUsuarioID(Model model){
+        LOG.info("Call: "+ "eliminarUsuarioID()");
+        ModelAndView mav = new ModelAndView(Constants.ELIMINAR_SOCIO);
+        model.addAttribute("socioID", new SocioModel());
+        model.addAttribute("eliminado", eliminado);
+        model.addAttribute("sinregistros", sinRegistros);
+        eliminado=0;
+        sinRegistros=0;
+        return mav;
+    }
+    @PostMapping("/eliminarUsuario")
+    public ModelAndView eliminarUsuario(@ModelAttribute("socioID") SocioModel socioModel){
+        LOG.info("Call: "+ "eliminarUsuario()");
+        ModelAndView mav = new ModelAndView(Constants.ELIMINAR_SOCIO);
+        List<Socio> socioList = socioService.consultarByNombre(socioModel.getNombre());
+        mav.addObject("socios",socioList);
+        if(socioList != null){
+            for (Socio soc: socioList) {
+                socioService.eliminar(soc.getId());
+            }
+            eliminado=1;
+        }
+        else{
+            sinRegistros=1;
+        }
         return mav;
     }
 }

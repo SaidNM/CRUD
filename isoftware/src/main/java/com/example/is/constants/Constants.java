@@ -6,5 +6,5 @@ package com.example.is.constants;
 public class Constants {
     public static final String REGISTRAR_SOCIO = "registrar";
     public static final String CONSULTAR_SOCIO = "consultar";
-
+    public static final String ELIMINAR_SOCIO = "eliminar";
 }
