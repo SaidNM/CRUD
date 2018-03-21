@@ -12,5 +12,6 @@ public interface SocioService {
     public abstract List<Socio> consultar();
     public abstract int eliminar(int id);
     public abstract Socio actualizar(Socio socio);
+    public abstract List<Socio> consultarByNombre(String nombre);
 
 }

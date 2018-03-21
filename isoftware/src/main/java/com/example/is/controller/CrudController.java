@@ -1,7 +1,9 @@
 package com.example.is.controller;
 
 import com.example.is.constants.Constants;
+import com.example.is.converter.SocioConverter;
 import com.example.is.entity.Socio;
+import com.example.is.model.SocioModel;
 import com.example.is.service.SocioService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -31,6 +33,10 @@ public class CrudController {
     @Qualifier("socioServiceImpl")
     private SocioService socioService;
 
+    @Autowired
+    @Qualifier("socioConverter")
+    private SocioConverter socioConverter;
+
     @GetMapping("/")
     public RedirectView redirect() {
         return new RedirectView("/example/registrar");
@@ -38,14 +44,15 @@ public class CrudController {
 
     @GetMapping("/registrar")
     public ModelAndView base(Model model) {
-        model.addAttribute("socio", new Socio());
+        model.addAttribute("socio", new SocioModel());
         model.addAttribute("success", registroExitoso);
         registroExitoso=0;
         return new ModelAndView(Constants.REGISTRAR_SOCIO);
     }
 
     @PostMapping("/socio")
-    public String registrarUsuario(@ModelAttribute("socio") Socio socio) {
+    public String registrarUsuario(@ModelAttribute("socio") SocioModel socioModel) {
+        Socio socio=socioConverter.modelToEntity(socioModel);
         socio = socioService.registrar(socio);
         if(socio!=null) {
             registroExitoso = 1;
@@ -54,10 +61,19 @@ public class CrudController {
     }
 
     @GetMapping("/consultar")
-    public ModelAndView consultarUsuarios(){
+    public ModelAndView consultarUsuarios(Model model){
         LOG.info("Call: "+ "consultarUsuarios()");
        ModelAndView mav = new ModelAndView(Constants.CONSULTAR_SOCIO);
+       model.addAttribute("socioModel",new SocioModel());
        mav.addObject("socios",socioService.consultar());
        return mav;
+    }
+
+    @GetMapping("/buscar")
+    public ModelAndView consultarUsuarioNombre(@ModelAttribute("socioModel") SocioModel socioModel){
+        LOG.info("Call: "+ "consultarUsuariosNombre()");
+        ModelAndView mav = new ModelAndView(Constants.CONSULTAR_SOCIO);
+        mav.addObject("socios",socioService.consultarByNombre(socioModel.getNombre()));
+        return mav;
     }
 }

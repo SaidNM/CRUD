@@ -44,4 +44,9 @@ public class SocioServiceImpl implements SocioService {
     public Socio actualizar(Socio socio) {
         return socioJpaRepository.save(socio);
     }
+
+    @Override
+    public List<Socio> consultarByNombre(String nombre) {
+        return socioJpaRepository.findByNombre(nombre);
+    }
 }
